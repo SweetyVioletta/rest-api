@@ -1,0 +1,6 @@
+database:
+  dbname: "rest"
+  user: "root"
+  password: "1"
+  host: "localhost"
+  driver: "pdo_mysql"

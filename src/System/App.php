@@ -8,7 +8,6 @@ use Symfony\Component\HttpKernel\Controller\ArgumentResolver;
 use Symfony\Component\HttpKernel\Controller\ControllerResolver;
 use Symfony\Component\Config\FileLocator;
 use Symfony\Component\HttpFoundation\Request;
-use Symfony\Component\HttpFoundation\Response;
 use Symfony\Component\Routing\Loader\YamlFileLoader;
 use Symfony\Component\Routing\Matcher\UrlMatcher;
 use Symfony\Component\Routing\RequestContext;
@@ -38,6 +37,10 @@ class App
      * @var string
      */
     private $basePath;
+    /**
+     * @var array
+     */
+    private $container = [];
 
     public static $instance = null;
 
@@ -162,5 +165,24 @@ class App
         if (null !== $response) {
             $response->send();
         }
+    }
+
+    /**
+     * @param $key
+     * @param $object
+     */
+    public function add($key, $object)
+    {
+        $this->container[$key] = $object;
+    }
+
+    /**
+     * @param $key
+     *
+     * @return mixed|null
+     */
+    public function get($key)
+    {
+        return $this->container[$key] ?? null;
     }
 }
