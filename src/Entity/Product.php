@@ -4,12 +4,9 @@ namespace App\Entity;
 
 use Doctrine\ORM\Mapping as ORM;
 use Doctrine\ORM\Mapping\Column;
-use Doctrine\ORM\Mapping\Entity;
-use Doctrine\ORM\Mapping\Table;
 
 /**
- * @Entity()
- * @Table(name="product")
+ *  @ORM\Entity(repositoryClass="App\Repository\ProductRepository")
  */
 class Product
 {
