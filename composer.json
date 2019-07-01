@@ -1,0 +1,29 @@
+{
+    "name": "sweetyvioletta/rest-api",
+    "description": "Example PHP REST api project with Symfony 4 components.",
+    "authors": [
+        {
+            "name": "Viya",
+            "email": "violetta.starovojtova@yandex.ru"
+        }
+    ],
+    "require": {
+        "symfony/routing" : "^4.2",
+        "symfony/config" : "^4.2",
+        "symfony/templating" : "^4.2",
+        "symfony/yaml" : "^4.2",
+        "symfony/http-foundation" : "^4.2",
+        "symfony/http-kernel" : "^4.2"
+    },
+    "require-dev": {
+        "symfony/var-dumper" : "^4.2"
+    },
+    "autoload": {
+        "psr-4": {
+            "App\\": "src/"
+        },
+        "files": [
+            "src/helpers/helpers.php"
+        ]
+    }
+}
