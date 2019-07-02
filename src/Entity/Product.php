@@ -7,11 +7,12 @@ use Doctrine\ORM\Mapping\Column;
 use InvalidArgumentException;
 
 /**
- *  @ORM\Entity(repositoryClass="ProductProductRepository")
+ *  @ORM\Entity(repositoryClass="App\Repository\ProductRepository")
  */
 class Product
 {
     /**
+     * Better use uuid()
      * @id
      * @Column(type="integer")
      * @ORM\GeneratedValue()
