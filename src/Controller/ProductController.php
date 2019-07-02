@@ -3,39 +3,66 @@
 namespace App\Controller;
 
 use App\Entity\Product;
-use App\Helpers\AppHelper;
-use App\Repository\ProductRepository;
-use App\Service\Action\ProductGenerateAction;
-use Doctrine\ORM\EntityManager;
-use Doctrine\ORM\Mapping\ClassMetadata;
+use App\Service\ProductService;
+use Doctrine\Common\Persistence\ObjectRepository;
+use FOS\RestBundle\Controller\AbstractFOSRestController;
+use FOS\RestBundle\View\View;
+use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\Response;
+use FOS\RestBundle\Controller\Annotations as Rest;
 
-class ProductController extends Controller
+/**
+ * Class ProductController
+ * @package App\Controller
+ */
+class ProductController extends AbstractFOSRestController
 {
     /**
-     * @return Response
+     * @var ProductService
+     */
+    private $productService;
+
+    /**
+     * ProductController constructor.
+     */
+    public function __construct()
+    {
+        Controller::__construct();
+        $this->productService = new ProductService($this->getProductRepository());
+    }
+
+    /**
+     * @return ObjectRepository
+     */
+    private function getProductRepository(): ObjectRepository
+    {
+        return $this->getDoctrine()->getRepository(Product::class);
+    }
+
+    /**
+     * Generates product models
+     * @Rest\Post("/generate")
+     *
+     * @param Request $request
+     *
+     * @return View
      * @throws \Doctrine\Common\Persistence\Mapping\MappingException
      * @throws \Doctrine\ORM\ORMException
      * @throws \Doctrine\ORM\OptimisticLockException
      */
-    public function generate()
+    public function postGenerate(Request $request): View
     {
-        (new ProductGenerateAction())->execute();
-        $response = new Response();
-        $response->setStatusCode(200);
-        return $this->handleView($this->view('OK'));
+        $products = $this->productService->addProducts($request->get('count'));
+        return View::create($products, Response::HTTP_CREATED);
     }
 
     /**
-     * @return Response
+     * Retrieves a collection of Products resource
+     * @Rest\Get("/products")
      */
-    public function index()
+    public function getProducts()
     {
-        /** @var EntityManager $entityManager */
-        $entityManager = AppHelper::app()->get('orm')->getEntityManager();
-        $classMetadata = new ClassMetadata(Product::class);
-        $repository = new ProductRepository($entityManager, $classMetadata);
-        $products = $repository->findAllOrderedByName();
-        return $this->handleView($this->view($products));
+        $products = $this->productService->getAllProducts();
+        return View::create($products, Response::HTTP_OK);
     }
 }

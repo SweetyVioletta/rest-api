@@ -1,16 +1,16 @@
 generate_route:
   path: /product/generate
-  defaults: {_controller: 'App\Controller\ProductController::generate'}
+  defaults: {_controller: 'App\Controller\ProductController::postGenerate'}
   methods:  [GET]
 index_route:
   path: /product
-  defaults: {_controller: 'App\Controller\ProductController::index'}
+  defaults: {_controller: 'App\Controller\ProductController::getProducts'}
   methods:  [GET]
 create_order_route:
   path: /order
-  defaults: {_controller: 'App\Controller\OrderController::create'}
+  defaults: {_controller: 'App\Controller\OrderController::postCreate'}
   methods:  [POST]
 charge_order_route:
   path: /order/charge
-  defaults: {_controller: 'App\Controller\OrderController::charge'}
+  defaults: {_controller: 'App\Controller\OrderController::putCharge'}
   methods:  [PUT]
